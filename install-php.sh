@@ -32,12 +32,12 @@ then
     pickle install -n --defaults xdebug
     docker-php-ext-enable xdebug > /dev/null
     echo "remote_host=${XDEBUG_REMOTE_HOST}
-    remote_port=${XDEBUG_PORT}
-    remote_enable=1
-    idekey=IDE_DEBUG
-    error_reporting=E_ALL
-    display_startup_errors=On
-    display_errors=On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+remote_port=${XDEBUG_PORT}
+remote_enable=1
+idekey=IDE_DEBUG
+error_reporting=E_ALL
+display_startup_errors=On
+display_errors=On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 fi
 
 # Install composer
