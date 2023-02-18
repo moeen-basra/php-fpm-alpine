@@ -1,4 +1,4 @@
-FROM php:8.1.8-fpm-alpine3.16
+FROM php:8.1-fpm-alpine3.17
 
 ARG user=forge
 ARG gid=1000
