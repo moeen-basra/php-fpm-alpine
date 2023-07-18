@@ -70,11 +70,10 @@ docker-php-ext-enable igbinary memcached redis xmlrpc xdebug >/dev/null
 # Install Xdebug if enabled
 if [ "$xdebug" = true ]; then
     docker-php-ext-enable xdebug >/dev/null
-    echo -e "client_host=${xdebug_host}" \
-        "\nremote_port=${xdebug_port}" \
-        "\nmode=develop,debug,coverage,trace" \
-        "\nlog=/tmp/xdebug.log" \
-        "\nstart_with_request=yes" \
+    echo -e "xdebug.client_host=${xdebug_host}" \
+        "\nxdebug.client_port=${xdebug_port}" \
+        "\nxdebug.mode=develop,coverage,debug,trace" \
+        "\nxdebug.start_with_request=yes" \
         >>/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 fi
 
