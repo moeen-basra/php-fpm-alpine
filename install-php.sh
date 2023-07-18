@@ -6,8 +6,8 @@ while [ $# -gt 0 ]; do
     --xdebug=*)
         xdebug="${1#*=}"
         ;;
-    --xdebug-remote-host=*)
-        xdebug_remote_host="${1#*=}"
+    --xdebug-host=*)
+        xdebug_host="${1#*=}"
         ;;
     --xdebug-port=*)
         xdebug_port="${1#*=}"
@@ -65,18 +65,17 @@ pickle install -n --defaults memcached
 pickle install -n --defaults redis
 pickle install -n --defaults xmlrpc
 pickle install -n --defaults xdebug
-docker-php-ext-enable igbinary memcached redis xmlrpc >/dev/null
+docker-php-ext-enable igbinary memcached redis xmlrpc xdebug >/dev/null
 
 # Install Xdebug if enabled
 if [ "$xdebug" = true ]; then
     docker-php-ext-enable xdebug >/dev/null
-    echo "remote_host=${xdebug_remote_host}
-remote_port=${xdebug_port}
-remote_enable=1
-idekey=IDE_DEBUG
-error_reporting=E_ALL
-display_startup_errors=On
-display_errors=On" >>/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    echo -e "client_host=${xdebug_host}" \
+        "\nremote_port=${xdebug_port}" \
+        "\nmode=develop,debug,coverage,trace" \
+        "\nlog=/tmp/xdebug.log" \
+        "\nstart_with_request=yes" \
+        >>/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 fi
 
 # Install Composer
@@ -87,6 +86,8 @@ curl -sSL -o /usr/bin/phpunit https://phar.phpunit.de/phpunit.phar && chmod +x /
 
 # Remove temporary packages
 apk del $PHPIZE_DEPS
+
+rm -rf /var/cache/apk/* /var/tmp/* /tmp/*
 
 # Set timezone (optional)
 # echo "Asia/Karachi" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
