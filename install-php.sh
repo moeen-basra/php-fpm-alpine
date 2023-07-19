@@ -6,11 +6,17 @@ while [ $# -gt 0 ]; do
     --xdebug=*)
         xdebug="${1#*=}"
         ;;
+    --xdebug-version=*)
+        xdebug_version="${1#*=}"
+        ;;
     --xdebug-host=*)
         xdebug_host="${1#*=}"
         ;;
     --xdebug-port=*)
         xdebug_port="${1#*=}"
+        ;;
+    --xdebug-idekey=*)
+        xdebug_idekey="${1#*=}"
         ;;
     *)
         echo "Error: Invalid argument: $1"
@@ -64,7 +70,7 @@ pickle install -n --defaults igbinary
 pickle install -n --defaults memcached
 pickle install -n --defaults redis
 pickle install -n --defaults xmlrpc
-pickle install -n --defaults xdebug
+pickle install -n --defaults xdebug@${xdebug_version}
 docker-php-ext-enable igbinary memcached redis xmlrpc xdebug >/dev/null
 
 # Install Xdebug if enabled
@@ -74,6 +80,7 @@ if [ "$xdebug" = true ]; then
         "\nxdebug.client_port=${xdebug_port}" \
         "\nxdebug.mode=develop,coverage,debug,trace" \
         "\nxdebug.start_with_request=yes" \
+        "\nxdebug.idekey=${xdebug_idekey}" \
         >>/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 fi
 

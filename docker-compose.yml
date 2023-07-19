@@ -1,0 +1,16 @@
+services:
+  php:
+    image: moeenbasra/php-fpm-alpine
+    container_name: moeenbasra/php-fpm-alpine
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        php_version: 8.2
+        alpine_version: 3.18
+        xdebug_version: 3.2.2
+        xdebug: false
+        xdebug_host: host.docker.internal
+        xdebug_port: 9003
+        xdebug_idekey: IDE_DEBUG
