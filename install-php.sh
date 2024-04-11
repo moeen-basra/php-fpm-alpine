@@ -53,7 +53,13 @@ apk add --update --no-cache \
     libpng \
     libjpeg-turbo \
     zip \
-    linux-headers
+    linux-headers \
+    supervisor \
+    git \
+    nano \
+    nodejs \
+    npm \
+    postgresql-client
 
 # Configure and install gd extension
 docker-php-ext-configure gd --with-freetype --with-jpeg
@@ -94,6 +100,3 @@ curl -sSL -o /usr/bin/phpunit https://phar.phpunit.de/phpunit.phar && chmod +x /
 apk del $PHPIZE_DEPS
 
 rm -rf /var/cache/apk/* /var/tmp/* /tmp/*
-
-# Set timezone (optional)
-# echo "Asia/Karachi" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata

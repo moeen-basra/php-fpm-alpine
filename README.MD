@@ -1,6 +1,6 @@
 # Docker PHP FPM ALPINE
 
-PHP FPM and ALPINE image for development.
+PHP FPM and ALPINE image for development. including the postgres pdo and client, nodejs, npm, git, nano
 
 ## How to use
 
